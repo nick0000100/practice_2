@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{user.first_name}}'s Page</title>
+        <style>
+            .gold {
+                color: gold;
+                font-weight: bold;
+            }
+            .lose {
+                color: red;
+            }
+
+            .win {
+                color: green;
+            }
+
+            #activities {
+                width: 1000px;
+                height: 250px;
+                overflow: scroll;
+            }
+            #activities p:nth-child(odd) {
+                background-color: lightgray;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>{{user.first_name}}'s Page</h1>
+            <p>Welcome, {{request.session.first_name}}</p>
+            <p><a href="/logout">Logout</a> <a href="/game/play">Play</a> <a href="/game/dashboard">Show all users</a> <a href="/game">Leaderboard</a><p>
+            </header>
+        <div>
+            <p>Name: {{user.first_name}} {{user.last_name}}</p>
+            <p class="gold">Gold: {{user.gold}}</p>
+            <h4>{{user.first_name}}'s activities </h4>
+            <div id="activities">
+                {% for activity in activities %}
+                    {% if 'earned' in activity.content %}
+                        <p class='win'>{{ activity.content }} {{ activity.created_at }}</p>
+                    {% else %}
+                        <p class='lose'>{{ activity.content }} {{ activity.created_at }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>

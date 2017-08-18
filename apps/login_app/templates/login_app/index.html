@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome</title>
+        <style>
+            input {
+                display: block;
+                margin-bottom: 1em;
+            }
+            form {
+                display: inline-block;
+                vertical-align: top;
+                width: 45%;
+            }
+            .error {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+        <div id="errors">
+            {% if messages %}
+                {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Register</legend>
+                <label>First Name:</label><input type="text" name="first_name">
+                <label>Last Name:</label><input type="text" name="last_name">
+                <label>Email:</label><input type="text" name="email">
+                <p>&#42;Password should be at least 8 characters.</p>
+                <label>Password:</label><input type="password" name="password">
+                <label>Confirm PW:</label><input type="password" name="cPass">
+                <input type="submit" value="Register">
+            </fieldset>
+        </form>
+        <form action="/login" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login</legend>
+                <label>Email:</label><input type="text" name="email">
+                <label>Password:</label><input type="password" name="password">
+                <input type="submit" value="Login">
+            </fieldset>
+        </form>
+    </body>
+</html>

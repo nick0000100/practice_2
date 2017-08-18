@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Highscores</title>
+        <style>
+            tr:nth-child(odd) {
+                background-color: lightgray;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Highscores!</h1>
+            <p>Welcome, {{request.session.first_name}}</p>
+            <p><a href="/logout">Logout</a> <a href="/game/play">Play</a> <a href="/game/dashboard">Show all users</a> <a href="/game">Leaderboard</a><p>
+            </header>
+        <div id="highscores">
+            <table>
+                <p>Top 3 Age Groups</p>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Gold</th>
+                    </tr>
+                <thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td><a href="/game/user/{{user.id}}">{{user.first_name}}</a></td>
+                            <td>{{user.gold}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

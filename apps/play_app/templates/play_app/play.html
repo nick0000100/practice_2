@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <style>
+            div {
+                display: inline-block;
+                border: 1px solid black;
+            }
+
+            #gold {
+                height: 40px;
+                width: 200px;
+            }
+
+            span {
+                color: gold;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            #holder {
+                display: flex;
+                width: 1000px;
+                justify-content: space-around;
+            }
+
+            .earn {
+                width: 20%;
+                padding: 15px;
+                margin: 5px;
+            }
+
+            #activities {
+                width: 1000px;
+                height: 250px;
+                display: block;
+                overflow: scroll;
+            }
+
+            .lose {
+                color: red;
+            }
+
+            .win {
+                color: green;
+            }
+        </style>
+    <title>Play the game</title>
+    </head>
+    <body>
+        <header>
+            <h2 class="lose">WARNING IF YOU GO UNDER 0 GOLD YOUR ACCOUNT IS BE ERASED</h2>
+            <p>Welcome, {{request.session.first_name}}</p>
+            <p><a href="/logout">Logout</a> <a href="/game/play">Play</a> <a href="/game/dashboard">Show all users</a> <a href="/game">Leaderboard</a><p>
+        </header>
+        <h3>Your Gold: <span>{{user.gold}}</span></h3>
+        <div id="holder">
+            <div id="farm" class="earn">
+                <h2>Farm</h2>
+                <p>Earns 10-20 Gold</p>
+                <form action="/game/process" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="building" value="farm">
+                    <input type="submit" value="Find Gold!" />
+                </form>
+            </div>
+            <div id="cave" class="earn">
+                <h2>Cave</h2>
+                <p>Earns 5-30 Gold</p>
+                <form action="/game/process" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="building" value="cave">
+                    <input type="submit" value="Find Gold!" />
+                </form>
+            </div>
+            <div id="house" class="earn">
+                <h2>Mountain</h2>
+                <p>Earns 15-20 Gold</p>
+                <form action="/game/process" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="building" value="mountain">
+                    <input type="submit" value="Find Gold!" />
+                </form>
+            </div>
+            <div id="casino" class="earn">
+                <h2>Casino</h2>
+                <p>Earns or Lose 0-50 Gold</p>
+                <form action="/game/process" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="building" value="casino">
+                    <input type="submit" value="Find Gold!" />
+                </form>
+            </div>
+        </div>
+        <p>Activities</p>
+        <div id="activities">
+            {% for activity in activities %}
+                {% if 'earned' in activity.content %}
+                    <p class='win'>{{ activity.content }} {{ activity.created_at }}</p>
+                {% else %}
+                    <p class='lose'>{{ activity.content }} {{ activity.created_at }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>
